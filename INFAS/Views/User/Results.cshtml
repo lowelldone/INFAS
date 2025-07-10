@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "SQL Injection Demo Results";
+}
+
+<h2>Login Successful</h2>
+<h3>SQL Injection Result</h3>
+
+<div>
+    @Html.Raw(ViewBag.Results) <!-- ✅ this is what shows the output -->
+</div>
+
+<br />
+
+<a asp-controller="User" asp-action="Index">Go to Home Page</a>

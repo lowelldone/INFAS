@@ -33,17 +33,30 @@ namespace INFAS.Controllers
             using (var cmd = new SqlCommand(sql, conn))
             {
                 conn.Open();
-                using (var reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
+                using (var reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
+                    if (reader.HasRows)
                     {
-                        return RedirectToAction("Index", "Home");
+                        var result = "<h3>Users Credentials</h3>";
+
+                        while (reader.Read())
+                        {
+                            var uname = reader["Username"].ToString();
+                            var pwd = reader["Password"].ToString();
+                            result += $"<li><strong>Username:</strong> {uname}, <strong>Password:</strong> {pwd}</li>";
+                        }
+
+                        result += "</ul>";
+                        ViewBag.Results = result;
+                        return View("Results"); // ✅ Make sure this view exists
                     }
                 }
             }
+
             ViewBag.Error = "Invalid credentials.";
             return View();
         }
+
 
         //[HttpPost]
         //public IActionResult Login(string username, string password)
